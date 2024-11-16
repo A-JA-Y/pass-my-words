@@ -22,7 +22,7 @@ function Manager() {
           <input
             type="text"
             className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg  shadow-sm shadow-green-700  border-green-700 border-b-2 "
-            placeholder="Enter wensite URL"
+            placeholder="Enter website URL"
           />
           <div className=" w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
             <input
