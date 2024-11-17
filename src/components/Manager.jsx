@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 
 function Manager() {
+  const [form, setForm] = useState({site:"", username:"", password:""});
+  const [passwordArray, setPasswordArray] = useState([]);
 
   const toggleShowPass = (e) => {
     const pass = e.target.previousElementSibling;
@@ -15,36 +17,82 @@ function Manager() {
     }
     
   }
+
+  const handleChange = (e) => {
+setForm({...form, [e.target.name]: e.target.value});
+    
+  }
+  const savePassword = () => {
+    setPasswordArray([...passwordArray , form]);
+    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
+    
+    alert("Password Saved");
+    setForm({site:"", username:"", password:""});
+    
+    
+  }
+  useEffect(()=>{
+    let passwords = localStorage.getItem("passwords");
+    if(passwords){
+      setPasswordArray(JSON.parse(passwords));
+    }
+  
+
+  },[]);
+
   return (
     <>
       <div className="  min-w-full min-h-screen dark:bg-zinc-800 dark:text-white bg-slate-300 ">
         <div className=" text-center flex flex-col items-center justify-center py-10 drop-shadow-2xl">
           <input
             type="text"
-            className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg  shadow-sm shadow-green-700  border-green-700 border-b-2 "
-            placeholder="Enter website URL"
+            className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 text-black border-green-700 border-b-2 " onChange={handleChange}
+            placeholder="Enter website URL" value={form.site} name="site"
           />
           <div className=" w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
             <input
               type="text"
-              className="p-2 w-full rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 border-green-700 border-b-2 "
+              className="p-2 w-full rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 border-green-700 border-b-2 " onChange={handleChange}
               placeholder="Enter the Username"
+              value={form.username}
+              name="username"
             />
             <div className="relative">
 
             <input
               type="password"
               className="p-2 w-full rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 border-green-700 border-b-2 "
-              placeholder="Enter the Password"
+              placeholder="Enter the Password" onChange={handleChange}
+              value={form.password}
+              name="password"
             />
             <span className="absolute top-2 right-1 text-black cursor-pointer" onClick={toggleShowPass}>Show</span>
             </div>
 
           </div>
-          <button className="p-2  m-2 bg-zinc-700 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full border-green-700 hover:border-green-300 border-b-2">
+          <button className="p-2  m-2 bg-zinc-700 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full border-green-700 hover:border-green-300 border-b-2" onClick={savePassword} >
             Add Password 
           </button>
         </div>
+        <div className="flex flex-col items-center justify-center">
+          <h2 className="text-2xl font-bold">Saved Passwords</h2>
+          <div className="w-1/2">
+            {passwordArray.map((password, index) => (
+              <div key={index} className="flex flex-col items-center justify-center p-2 m-2 bg-green-700 text-white rounded-xl">
+                <h3>Website: {password.site}</h3>
+                <p>Username: {password.username}</p>
+                <p>Password: {password.password}</p>
+              </div>
+            ))}
+          </div>
+            {/* edit and delete passwords functionality */}
+
+            
+
+
+        </div>
+
+
       </div>
     </>
   );
