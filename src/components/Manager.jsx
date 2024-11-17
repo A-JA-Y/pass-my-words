@@ -31,6 +31,12 @@ setForm({...form, [e.target.name]: e.target.value});
     
     
   }
+  const handleDelete = (e) => {
+    let index = e.target.parentElement.rowIndex - 1;
+    let newArray = passwordArray.filter((password, i) => i !== index);
+    setPasswordArray(newArray);
+    localStorage.setItem("passwords", JSON.stringify(newArray));
+  }
   useEffect(()=>{
     let passwords = localStorage.getItem("passwords");
     if(passwords){
@@ -42,58 +48,77 @@ setForm({...form, [e.target.name]: e.target.value});
 
   return (
     <>
-      <div className="  min-w-full min-h-screen dark:bg-zinc-800 dark:text-white bg-slate-300 ">
-        <div className=" text-center flex flex-col items-center justify-center py-10 drop-shadow-2xl">
+      <div className="min-w-full min-h-screen dark:bg-zinc-800 dark:text-white bg-slate-300">
+        <div className="text-center flex flex-col items-center justify-center py-10 drop-shadow-2xl">
           <input
             type="text"
-            className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 text-black border-green-700 border-b-2 " onChange={handleChange}
-            placeholder="Enter website URL" value={form.site} name="site"
+            className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg shadow-sm shadow-green-700 text-black border-green-700 border-b-2"
+            onChange={handleChange}
+            placeholder="Enter website URL"
+            value={form.site}
+            name="site"
           />
-          <div className=" w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
+          <div className="w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
             <input
               type="text"
-              className="p-2 w-full rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 border-green-700 border-b-2 " onChange={handleChange}
+              className="p-2 w-full rounded-xl drop-shadow-lg shadow-sm shadow-green-700 border-green-700 border-b-2"
+              onChange={handleChange}
               placeholder="Enter the Username"
               value={form.username}
               name="username"
             />
             <div className="relative">
-
-            <input
-              type="password"
-              className="p-2 w-full rounded-xl drop-shadow-lg  shadow-sm shadow-green-700 border-green-700 border-b-2 "
-              placeholder="Enter the Password" onChange={handleChange}
-              value={form.password}
-              name="password"
-            />
-            <span className="absolute top-2 right-1 text-black cursor-pointer" onClick={toggleShowPass}>Show</span>
+              <input
+                type="password"
+                className="p-2 w-full rounded-xl drop-shadow-lg shadow-sm shadow-green-700 border-green-700 border-b-2"
+                placeholder="Enter the Password"
+                onChange={handleChange}
+                value={form.password}
+                name="password"
+              />
+              <span
+                className="absolute top-2 right-1 text-black cursor-pointer"
+                onClick={toggleShowPass}
+              >
+                Show
+              </span>
             </div>
-
           </div>
-          <button className="p-2  m-2 bg-zinc-700 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full border-green-700 hover:border-green-300 border-b-2" onClick={savePassword} >
-            Add Password 
+          <button
+            className="p-2 m-2 bg-zinc-700 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full border-green-700 hover:border-green-300 border-b-2"
+            onClick={savePassword}
+          >
+            Add Password
           </button>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center px-10">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
-          <div className="w-1/2">
-            {passwordArray.map((password, index) => (
-              <div key={index} className="flex flex-col items-center justify-center p-2 m-2 bg-green-700 text-white rounded-xl">
-                <h3>Website: {password.site}</h3>
-                <p>Username: {password.username}</p>
-                <p>Password: {password.password}</p>
-              </div>
-            ))}
+          <div className="w-1/2"></div>
+            <table className="min-w-full bg-zinc-800  text-white">
+              <thead>
+                <tr>
+                  <th className="py-2 px-4 border-b">Website</th>
+                  <th className="py-2 px-4 border-b">Username</th>
+                  <th className="py-2 px-4 border-b">Password</th>
+                  <th className="py-2 px-4 border-b">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {passwordArray.map((password, index) => (
+                  <tr key={index} className="text-center">
+                    <td className="py-2 px-4 border-b  ">{password.site}</td>
+                    <td className="py-2 px-4 border-b  ">{password.username}</td>
+                    <td className="py-2 px-4 border-b  ">{password.password}</td>
+                    <td className="py-2 px-4 border-b cursor-pointer " onClick={handleDelete} >delete</td>
+
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-            {/* edit and delete passwords functionality */}
-
-            
-
-
         </div>
-
-
-      </div>
+      
     </>
   );
 }
