@@ -8,10 +8,10 @@ const Navbar = () => {
        <ul className='
        flex items-center justify-around' >
         <li>
-            <a href="/" className="text-2xl font-thin">&lt; Pass-My-Word /&gt;</a>
+            <a href="/" className="text-2xl font-thin"><span className='text-red-500' >&lt;</span> Pass-My-Word <span className='text-red-500' >/&gt;</span></a>
         </li>
         <li>
-            <a href="https://github.com/A-JA-Y" target='_blank' className="text-2xl font-bold">GitHub</a>
+            <a href="https://github.com/A-JA-Y" target='_blank' className="text-2xl font-bold hover:invert ">GitHub</a>
         </li>
        </ul>
 

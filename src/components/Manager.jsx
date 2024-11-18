@@ -23,11 +23,17 @@ setForm({...form, [e.target.name]: e.target.value});
     
   }
   const savePassword = () => {
-    setPasswordArray([...passwordArray , form]);
-    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
-    
-    alert("Password Saved");
-    setForm({site:"", username:"", password:""});
+    if(form.site === "" || form.username === "" || form.password === ""){
+      alert("Please fill all the fields");
+      return;}
+      else{
+
+        setPasswordArray([...passwordArray , form]);
+        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
+        
+        alert("Password Saved");
+        setForm({site:"", username:"", password:""});
+      }
     
     
   }
@@ -37,6 +43,7 @@ setForm({...form, [e.target.name]: e.target.value});
     setPasswordArray(newArray);
     localStorage.setItem("passwords", JSON.stringify(newArray));
   }
+  
   useEffect(()=>{
     let passwords = localStorage.getItem("passwords");
     if(passwords){
@@ -93,7 +100,8 @@ setForm({...form, [e.target.name]: e.target.value});
         </div>
         <div className="flex flex-col items-center justify-center px-10">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
-          <div className="w-1/2"></div>
+          {passwordArray.length === 0 ? <h1 className="text-2xl drop-shadow-lg shadow-red-600">No Passwords Saved yet!!</h1> :
+
             <table className="min-w-full bg-zinc-800  text-white">
               <thead>
                 <tr>
@@ -107,15 +115,20 @@ setForm({...form, [e.target.name]: e.target.value});
               <tbody>
                 {passwordArray.map((password, index) => (
                   <tr key={index} className="text-center">
-                    <td className="py-2 px-4 border-b  ">{password.site}</td>
+                    <td className="py-2 px-4 border-b  "><a href={password.site} target="_blank">{password.site}</a></td>
                     <td className="py-2 px-4 border-b  ">{password.username}</td>
                     <td className="py-2 px-4 border-b  ">{password.password}</td>
-                    <td className="py-2 px-4 border-b cursor-pointer " onClick={handleDelete} >delete</td>
+                    <td className="py-2 px-4 border-b cursor-pointer   " onClick={handleDelete}   >
+                      🗑️
+                      
+                      
+                    </td>
 
                   </tr>
                 ))}
               </tbody>
             </table>
+          }
           </div>
         </div>
       
