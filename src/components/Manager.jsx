@@ -59,13 +59,13 @@ setForm({...form, [e.target.name]: e.target.value});
         <div className="text-center flex flex-col items-center justify-center py-10 drop-shadow-2xl">
           <input
             type="text"
-            className="w-1/2 p-2 m-2 rounded-xl drop-shadow-lg shadow-sm shadow-green-700 text-black border-green-700 border-b-2"
+            className="w-11/12 sm:w-1/2 p-2 m-2 rounded-xl drop-shadow-lg shadow-sm shadow-green-700 text-black border-green-700 border-b-2"
             onChange={handleChange}
             placeholder="Enter website URL"
             value={form.site}
             name="site"
           />
-          <div className="w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
+          <div className="w-11/12 sm:w-1/2 grid lg:grid-cols-2 sm:grid-cols-1 gap-3 text-black">
             <input
               type="text"
               className="p-2 w-full rounded-xl drop-shadow-lg shadow-sm shadow-green-700 border-green-700 border-b-2"
@@ -98,40 +98,35 @@ setForm({...form, [e.target.name]: e.target.value});
             Add Password
           </button>
         </div>
-        <div className="flex flex-col items-center justify-center px-10">
+        <div className="flex flex-col items-center justify-center px-2 sm:px-10">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
           {passwordArray.length === 0 ? <h1 className="text-2xl drop-shadow-lg shadow-red-600">No Passwords Saved yet!!</h1> :
 
-            <table className="min-w-full bg-zinc-800  text-white">
+            <table className="min-w-full bg-white dark:bg-zinc-800 dark:text-white">
               <thead>
                 <tr>
-                  <th className="py-2 px-4 border-b">Website</th>
-                  <th className="py-2 px-4 border-b">Username</th>
-                  <th className="py-2 px-4 border-b">Password</th>
-                  <th className="py-2 px-4 border-b">Action</th>
-
+                  <th className="py-2 px-2 sm:px-4 border-b">Website</th>
+                  <th className="py-2 px-2 sm:px-4 border-b">Username</th>
+                  <th className="py-2 px-2 sm:px-4 border-b">Password</th>
+                  <th className="py-2 px-2 sm:px-4 border-b">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {passwordArray.map((password, index) => (
                   <tr key={index} className="text-center">
-                    <td className="py-2 px-4 border-b  "><a href={password.site} target="_blank">{password.site}</a></td>
-                    <td className="py-2 px-4 border-b  ">{password.username}</td>
-                    <td className="py-2 px-4 border-b  ">{password.password}</td>
-                    <td className="py-2 px-4 border-b cursor-pointer   " onClick={handleDelete}   >
+                    <td className="py-2 px-2 sm:px-4 border-b"><a href={password.site} target="_blank">{password.site}</a></td>
+                    <td className="py-2 px-2 sm:px-4 border-b">{password.username}</td>
+                    <td className="py-2 px-2 sm:px-4 border-b">{password.password}</td>
+                    <td className="py-2 px-2 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
                       🗑️
-                      
-                      
                     </td>
-
                   </tr>
                 ))}
               </tbody>
             </table>
           }
-          </div>
         </div>
-      
+      </div>
     </>
   );
 }

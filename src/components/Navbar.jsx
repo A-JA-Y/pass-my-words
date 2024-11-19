@@ -11,7 +11,7 @@ const Navbar = () => {
             <a href="/" className="text-2xl font-thin"><span className='text-red-500' >&lt;</span> Pass-My-Word <span className='text-red-500' >/&gt;</span></a>
         </li>
         <li>
-            <a href="https://github.com/A-JA-Y" target='_blank' className="text-2xl font-bold hover:invert ">GitHub</a>
+            <a href="https://github.com/A-JA-Y" target='_blank' className="text-2xl font-bold ">GitHub</a>
         </li>
        </ul>
 
