@@ -105,30 +105,30 @@ setForm({...form, [e.target.name]: e.target.value});
             Add Password
           </button>
         </div>
-        <div className="flex flex-col items-center justify-center px-2 sm:px-10">
+        <div className="flex flex-col items-center justify-center px-2 sm:px-14">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
           {passwordArray.length === 0 ? <h1 className="text-2xl drop-shadow-lg shadow-red-600">No Passwords Saved yet!!</h1> :
 
             <table className="min-w-full bg-white dark:bg-zinc-800 dark:text-white">
               <thead>
                 <tr>
-                  <th className="py-2 px-2 sm:px-4 border-b">Website</th>
-                  <th className="py-2 px-2 sm:px-4 border-b">Username</th>
-                  <th className="py-2 px-2 sm:px-4 border-b">Password</th>
-                  <th className="py-2 px-2 sm:px-4 border-b">Delete</th>
-                  <th className="py-2 px-2 sm:px-4 border-b">Copy</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Website</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Username</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Password</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Delete</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Copy</th>
                 </tr>
               </thead>
               <tbody>
                 {passwordArray.map((password, index) => (
                   <tr key={index} className="text-center">
-                    <td className="py-2 px-2 sm:px-4 border-b"><a href={password.site} target="_blank">{password.site}</a></td>
-                    <td className="py-2 px-2 sm:px-4 border-b">{password.username}</td>
-                    <td className="py-2 px-2 sm:px-4 border-b">{password.password}</td>
-                    <td className="py-2 px-2 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
+                    <td className="py-2 px-0 sm:px-4 border-b"><a href={password.site} target="_blank">{password.site}</a></td>
+                    <td className="py-2 px-0 sm:px-4 border-b">{password.username}</td>
+                    <td className="py-2 px-0 sm:px-4 border-b">{password.password}</td>
+                    <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
                       🗑️
                     </td>
-                    <td className="py-2 px-2 sm:px-4 border-b cursor-pointer" onClick={handleCopy}>
+                    <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleCopy}>
                       📋
                     </td>
                     
