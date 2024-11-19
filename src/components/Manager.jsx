@@ -18,6 +18,13 @@ function Manager() {
     
   }
 
+  const handleCopy = (e) => {
+    let index = e.target.parentElement.rowIndex - 1;
+    let password = passwordArray[index];
+    navigator.clipboard.writeText(password.password);
+    alert("Password Copied to Clipboard");
+  }
+
   const handleChange = (e) => {
 setForm({...form, [e.target.name]: e.target.value});
     
@@ -108,7 +115,8 @@ setForm({...form, [e.target.name]: e.target.value});
                   <th className="py-2 px-2 sm:px-4 border-b">Website</th>
                   <th className="py-2 px-2 sm:px-4 border-b">Username</th>
                   <th className="py-2 px-2 sm:px-4 border-b">Password</th>
-                  <th className="py-2 px-2 sm:px-4 border-b">Action</th>
+                  <th className="py-2 px-2 sm:px-4 border-b">Delete</th>
+                  <th className="py-2 px-2 sm:px-4 border-b">Copy</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,6 +128,10 @@ setForm({...form, [e.target.name]: e.target.value});
                     <td className="py-2 px-2 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
                       🗑️
                     </td>
+                    <td className="py-2 px-2 sm:px-4 border-b cursor-pointer" onClick={handleCopy}>
+                      📋
+                    </td>
+                    
                   </tr>
                 ))}
               </tbody>
