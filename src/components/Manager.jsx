@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from "react";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 
 function Manager() {
@@ -8,7 +10,7 @@ function Manager() {
   const toggleShowPass = (e) => {
     const pass = e.target.previousElementSibling;
     if (pass.type === "password") {
-      alert("showing password");
+      toast("showing password");
       pass.type = "text";
       e.target.textContent = "Hide";
     } else {
@@ -22,7 +24,7 @@ function Manager() {
     let index = e.target.parentElement.rowIndex - 1;
     let password = passwordArray[index];
     navigator.clipboard.writeText(password.password);
-    alert("Password Copied to Clipboard");
+    toast("Password Copied to Clipboard");
   }
 
   const handleChange = (e) => {
@@ -31,14 +33,15 @@ setForm({...form, [e.target.name]: e.target.value});
   }
   const savePassword = () => {
     if(form.site === "" || form.username === "" || form.password === ""){
-      alert("Please fill all the fields");
+      toast("Please fill all the fields");
+      
       return;}
       else{
 
         setPasswordArray([...passwordArray , form]);
         localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
         
-        alert("Password Saved");
+        toast("Password Saved");
         setForm({site:"", username:"", password:""});
       }
     
@@ -96,6 +99,7 @@ setForm({...form, [e.target.name]: e.target.value});
               >
                 Show
               </span>
+              <ToastContainer/>
             </div>
           </div>
           <button
@@ -104,6 +108,7 @@ setForm({...form, [e.target.name]: e.target.value});
           >
             Add Password
           </button>
+          <ToastContainer/>
         </div>
         <div className="flex flex-col items-center justify-center px-2 sm:px-14">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
@@ -128,9 +133,11 @@ setForm({...form, [e.target.name]: e.target.value});
                     <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
                       🗑️
                     </td>
+
                     <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleCopy}>
                       📋
                     </td>
+                    <ToastContainer/>
                     
                   </tr>
                 ))}
