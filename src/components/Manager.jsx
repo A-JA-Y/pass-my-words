@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
-
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { v4 as uuidv4 } from "uuid";
 
 function Manager() {
-  const [form, setForm] = useState({site:"", username:"", password:""});
+  const [form, setForm] = useState({ site: "", username: "", password: "" });
   const [passwordArray, setPasswordArray] = useState([]);
 
   const toggleShowPass = (e) => {
@@ -17,51 +17,55 @@ function Manager() {
       pass.type = "password";
       e.target.textContent = "Show";
     }
-    
-  }
+  };
 
   const handleCopy = (e) => {
     let index = e.target.parentElement.rowIndex - 1;
     let password = passwordArray[index];
     navigator.clipboard.writeText(password.password);
     toast("Password Copied to Clipboard");
-  }
+  };
 
   const handleChange = (e) => {
-setForm({...form, [e.target.name]: e.target.value});
-    
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
   const savePassword = () => {
-    if(form.site === "" || form.username === "" || form.password === ""){
+    if (form.site === "" || form.username === "" || form.password === "") {
       toast("Please fill all the fields");
-      
-      return;}
-      else{
 
-        setPasswordArray([...passwordArray , form]);
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
-        
-        toast("Password Saved");
-        setForm({site:"", username:"", password:""});
-      }
+      return;
+    } else {
+      setPasswordArray([...passwordArray, {...form, id:uuidv4()}]);
+      localStorage.setItem(
+        "passwords",
+        JSON.stringify([...passwordArray, {...form, id:uuidv4()}])
+      );
+
+      toast("Password Saved");
+      setForm({ site: "", username: "", password: "" });
+    }
+  };
+  const handleDelete = (id) => {
+    setPasswordArray(passwordArray.filter((password) => password.id !== id));
+    localStorage.setItem("passwords", JSON.stringify(passwordArray.filter((password) => password.id !== id)));
+    toast("Password Deleted");
     
-    
+
+     };
+  const handleEdit = (id) => {
+    let password = passwordArray.find((password) => password.id === id);
+    setForm(password);
+    setPasswordArray(passwordArray.filter((password) => password.id !== id));
+    localStorage.setItem("passwords", JSON.stringify(passwordArray.filter((password) => password.id !== id))); 
+    toast("Password Edited");
   }
-  const handleDelete = (e) => {
-    let index = e.target.parentElement.rowIndex - 1;
-    let newArray = passwordArray.filter((password, i) => i !== index);
-    setPasswordArray(newArray);
-    localStorage.setItem("passwords", JSON.stringify(newArray));
-  }
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     let passwords = localStorage.getItem("passwords");
-    if(passwords){
+    if (passwords) {
       setPasswordArray(JSON.parse(passwords));
     }
-  
-
-  },[]);
+  }, []);
 
   return (
     <>
@@ -99,7 +103,7 @@ setForm({...form, [e.target.name]: e.target.value});
               >
                 Show
               </span>
-              <ToastContainer/>
+              <ToastContainer />
             </div>
           </div>
           <button
@@ -108,42 +112,67 @@ setForm({...form, [e.target.name]: e.target.value});
           >
             Add Password
           </button>
-          <ToastContainer/>
+          <ToastContainer />
         </div>
         <div className="flex flex-col items-center justify-center px-2 sm:px-14">
           <h2 className="text-2xl font-bold">Saved Passwords</h2>
-          {passwordArray.length === 0 ? <h1 className="text-2xl drop-shadow-lg shadow-red-600">No Passwords Saved yet!!</h1> :
-
+          {passwordArray.length === 0 ? (
+            <h1 className="text-2xl drop-shadow-lg shadow-red-600">
+              No Passwords Saved yet!!
+            </h1>
+          ) : (
             <table className="min-w-full bg-white dark:bg-zinc-800 dark:text-white">
               <thead>
                 <tr>
                   <th className="py-2 px-0 sm:px-4 border-b">Website</th>
                   <th className="py-2 px-0 sm:px-4 border-b">Username</th>
                   <th className="py-2 px-0 sm:px-4 border-b">Password</th>
-                  <th className="py-2 px-0 sm:px-4 border-b">Delete</th>
+                  <th className="py-2 px-0 sm:px-4 border-b">Actions</th>
                   <th className="py-2 px-0 sm:px-4 border-b">Copy</th>
                 </tr>
               </thead>
               <tbody>
                 {passwordArray.map((password, index) => (
                   <tr key={index} className="text-center">
-                    <td className="py-2 px-0 sm:px-4 border-b"><a href={password.site} target="_blank">{password.site}</a></td>
-                    <td className="py-2 px-0 sm:px-4 border-b">{password.username}</td>
-                    <td className="py-2 px-0 sm:px-4 border-b">{password.password}</td>
-                    <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleDelete}>
+                    <td className="py-2 px-0 sm:px-4 border-b">
+                      <a href={password.site} target="_blank">
+                        {password.site}
+                      </a>
+                    </td>
+                    <td className="py-2 px-0 sm:px-4 border-b">
+                      {password.username}
+                    </td>
+                    <td className="py-2 px-0 sm:px-4 border-b">
+                      {password.password}
+                    </td>
+                    <td
+                      className="py-2 px-0  sm:px-4 border-b cursor-pointer"
+                      
+                    >
+                    <span onClick={() => handleDelete(password.id)}>
+
                       🗑️
+                    </span>
+                    <ToastContainer />
+                    <span onClick={() => handleEdit(password.id)}>
+
+                      🖊️
+                    </span>
+                    <ToastContainer />
                     </td>
 
-                    <td className="py-2 px-0 sm:px-4 border-b cursor-pointer" onClick={handleCopy}>
+                    <td
+                      className="py-2 px-0 sm:px-4 border-b cursor-pointer"
+                      onClick={handleCopy}
+                    >
                       📋
                     </td>
-                    <ToastContainer/>
-                    
+                    <ToastContainer />
                   </tr>
                 ))}
               </tbody>
             </table>
-          }
+          )}
         </div>
       </div>
     </>
