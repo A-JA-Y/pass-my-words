@@ -23,7 +23,7 @@ function Manager() {
     let index = e.target.parentElement.rowIndex - 1;
     let password = passwordArray[index];
     navigator.clipboard.writeText(password.password);
-    toast("Password Copied to Clipboard");
+    alert("Password Copied to Clipboard");
   };
 
   const handleChange = (e) => {
@@ -31,7 +31,7 @@ function Manager() {
   };
   const savePassword = () => {
     if (form.site === "" || form.username === "" || form.password === "") {
-      toast("Please fill all the fields");
+      alert("Please fill all the fields");
 
       return;
     } else {
