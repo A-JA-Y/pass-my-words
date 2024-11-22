@@ -2,6 +2,7 @@
 
 ## special about this project
 ### toastify package used for alerts
+### consistency commit 22-11-2024
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
