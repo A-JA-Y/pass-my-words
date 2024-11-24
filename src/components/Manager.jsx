@@ -23,7 +23,7 @@ function Manager() {
     let index = e.target.parentElement.rowIndex - 1;
     let password = passwordArray[index];
     navigator.clipboard.writeText(password.password);
-    alert("Password Copied to Clipboard");
+    toast("Password Copied to Clipboard");
   };
 
   const handleChange = (e) => {
@@ -31,14 +31,14 @@ function Manager() {
   };
   const savePassword = () => {
     if (form.site === "" || form.username === "" || form.password === "") {
-      alert("Please fill all the fields");
+      toast("Please fill all the fields");
 
       return;
     } else {
-      setPasswordArray([...passwordArray, {...form, id:uuidv4()}]);
+      setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
       localStorage.setItem(
         "passwords",
-        JSON.stringify([...passwordArray, {...form, id:uuidv4()}])
+        JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
       );
 
       toast("Password Saved");
@@ -46,19 +46,26 @@ function Manager() {
     }
   };
   const handleDelete = (id) => {
-    setPasswordArray(passwordArray.filter((password) => password.id !== id));
-    localStorage.setItem("passwords", JSON.stringify(passwordArray.filter((password) => password.id !== id)));
-    toast("Password Deleted");
-    
+    alert("Are you sure you want to delete this password?");
 
-     };
+    setPasswordArray(passwordArray.filter((password) => password.id !== id));
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify(passwordArray.filter((password) => password.id !== id))
+    );
+
+    toast("Password Deleted");
+  };
   const handleEdit = (id) => {
     let password = passwordArray.find((password) => password.id === id);
     setForm(password);
     setPasswordArray(passwordArray.filter((password) => password.id !== id));
-    localStorage.setItem("passwords", JSON.stringify(passwordArray.filter((password) => password.id !== id))); 
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify(passwordArray.filter((password) => password.id !== id))
+    );
     toast("Password Edited");
-  }
+  };
 
   useEffect(() => {
     let passwords = localStorage.getItem("passwords");
@@ -145,20 +152,11 @@ function Manager() {
                     <td className="py-2 px-0 sm:px-4 border-b">
                       {password.password}
                     </td>
-                    <td
-                      className="py-2 px-0  sm:px-4 border-b cursor-pointer"
-                      
-                    >
-                    <span onClick={() => handleDelete(password.id)}>
-
-                      🗑️
-                    </span>
-                    <ToastContainer />
-                    <span onClick={() => handleEdit(password.id)}>
-
-                      🖊️
-                    </span>
-                    <ToastContainer />
+                    <td className="py-2 px-0  sm:px-4 border-b cursor-pointer">
+                      <span onClick={() => handleDelete(password.id)}>🗑️</span>
+                      <ToastContainer />
+                      <span onClick={() => handleEdit(password.id)}>🖊️</span>
+                      <ToastContainer />
                     </td>
 
                     <td
